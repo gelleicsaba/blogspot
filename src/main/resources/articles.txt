@@ -1,0 +1,41 @@
+Rider on Linux
+ASP.Net
+It is very nice that Rider has a community version too, but I can't run or debug fistly on linux. But dont worry about it, you have to set "DOTNET_ROOT" in launch settings "environmentVariables" section and everything will be OK. Rider is a great choice if you want to use your .net project on linux.
+****
+Do you forget the frequent dir path?
+Command tools
+There is a good solution to change directory that you often use. Its name is Quickjump and the github source is [link "https://github.com/jabbalaci/quickjump"]QuickJump[/link].
+****
+Hurray! I've installed the Mint
+Linux
+Since I've installed the Mint I don't use Win10. Every tools are present in Mint, that I need (except some win games :). Develop your own enviroment for almost everything.
+****
+NodeJs microservice router & tester project
+NodeJS
+I've written a router based cli for NodeJs microservice in python. In addition an api tester can be made with this. I use it but it's not have been done. I'd like to add more function to it. [link "https://github.com/gelleicsaba/ncli"]NCLI[/link]
+****
+Micro could be your fav. base editor
+Command tools
+I always like the terminal based text editors, like vim or nano, but I prefer more the micro because it's very easy to use. You can change the color theme, you can install another nice plugins like this: [link "https://github.com/NicolaiSoeborg/filemanager-plugin"]Filemanager-plugin[/link]. Micro support the splitted editor parts too, like vim does.
+****
+Intellij Idea: Hot reload wanted
+Intellij Idea
+I use often the hot reload in many IDE, like visual studio, and it is nice tool in bigger project. It can be nice if I can use it in Intellij in case of spring projects. Of course the Idea is the greatest IDE that I have used ever :)
+****
+Replace your PC for a new OS minor ver.? Nice future :)
+OS
+It is a bad idea that you have to change the PC when you change an OS minor version. I dont want to mention specific products. I say that you can use Manjaro and you can enjoy the neverending rolling updates for free :)
+****
+Tailwind and utility classes
+HTML/CSS
+You don't need to know the component classes and uniqe class names. You can use a specific tailwind class for every UI component. Almost everything are there on tailwind css that you need, and the search box will help to find that you need on the tailwind site. It is superb.
+****
+BeeWare: Try to build Mobile app in python.
+Python
+I know that Flutter or React Native are fashion nowadays to build native apps, but Python is leader programming language in 2024 as the statistics show. We don't know what the future will be but Beeware might be I think. There are strong community support and cost effective like Flutter/Dart is.
+****
+Boost your app with Redis
+Web apps
+Put a layer between database and service in the application. It can be Redis, that is like a cache system. It supports key-value storage and queries, transactions, and many data types & structures. Redis can be better choice like other in-build in memory database systems.
+****
+--END--
