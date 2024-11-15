@@ -3,7 +3,7 @@ package blogspot.dto;
 import blogspot.model.Article;
 import java.util.List;
 
-public class AtriclePageDto {
+public class ArticlePageDto {
     protected int page;
     protected List<Article> data;
     protected int lastPage;

@@ -43,4 +43,10 @@ public interface ArticleRepository extends JpaRepository<Article, Integer> {
     @Query(nativeQuery = true, value="SELECT a.* FROM articles a ORDER BY a.id DESC LIMIT ?1")
     List<Article> articleLimitDesc(int limit);
 
+    @Query(nativeQuery = true, value="SELECT a.* FROM articles a WHERE a.name ILIKE ?2 OR a.category ILIKE ?3 OR a.content ILIKE ?4 OR a.date ILIKE ?5 ORDER BY a.id DESC LIMIT 4 OFFSET ?1")
+    List<Article> articleSearchPage(int limit, String s1, String s2, String s3, String s4);
+
+    @Query(nativeQuery = true, value="SELECT COUNT(1) AS count FROM articles a WHERE a.name ILIKE ?1 OR a.category ILIKE ?2 OR a.content ILIKE ?3 OR a.date ILIKE ?4")
+    IArticleCount articleSearchCount(String s1, String s2, String s3, String s4);
+
 }

@@ -1,6 +1,6 @@
 package blogspot.controller;
 
-import blogspot.dto.AtriclePageDto;
+import blogspot.dto.ArticlePageDto;
 import blogspot.dto.IArticleCount;
 import blogspot.model.Article;
 import blogspot.repository.ArticleRepository;
@@ -46,14 +46,14 @@ public class ArticleController {
     }
 
     @GetMapping("/page")
-    public AtriclePageDto page(@RequestParam("page") final int page) {
+    public ArticlePageDto page(@RequestParam("page") final int page) {
         final List<Article> article = _articleRepository.articlePage(page*PAGE_SIZE);
         final IArticleCount count = _articleRepository.articlecCount();
         final int lastPage = (count.getCount() / PAGE_SIZE);
         if (lastPage < page || page < 0) {
             throw new ArrayIndexOutOfBoundsException();
         }
-        AtriclePageDto dto = new AtriclePageDto();
+        ArticlePageDto dto = new ArticlePageDto();
         dto.setData(article);
         dto.setPage(page);
         dto.setLastPage(lastPage);
@@ -64,6 +64,23 @@ public class ArticleController {
     public List<Article> pageLimitDesc(@RequestParam("limit") final int limit) {
         return _articleRepository.articleLimitDesc(limit);
     }
+
+    @GetMapping("/search")
+    public ArticlePageDto articleSearchPage(@RequestParam("page") final int page, @RequestParam("search") final String search) {
+        final String searchParam = "%"+search.toLowerCase()+"%";
+        final List<Article> article = _articleRepository.articleSearchPage(page*PAGE_SIZE, searchParam, searchParam, searchParam, searchParam);
+        final IArticleCount count = _articleRepository.articleSearchCount(searchParam, searchParam, searchParam, searchParam);
+        final int lastPage = (count.getCount() / PAGE_SIZE);
+        if (lastPage < page || page < 0) {
+            throw new ArrayIndexOutOfBoundsException();
+        }
+        ArticlePageDto dto = new ArticlePageDto();
+        dto.setData(article);
+        dto.setPage(page);
+        dto.setLastPage(lastPage);
+        return dto;
+    }
+
 
 
 }

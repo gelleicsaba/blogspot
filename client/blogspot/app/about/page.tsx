@@ -1,6 +1,7 @@
 'use client'
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState, useRef, MutableRefObject } from 'react'
 import SafeHtml from '@/components/SafeHtml'
+import { useIsMount } from '@/services/useIsMount'
 
 const About = () => {
     const myname = "gellei.csaba"
@@ -9,6 +10,8 @@ const About = () => {
     const [done, setDone] = useState(false)
     const [text, setText] = useState("")
     const inputElement: any = useRef()
+    const timer1: MutableRefObject<any|null> = useRef(null)
+    const timer2: MutableRefObject<any|null> = useRef(null)
     const typeText =
 `Hello!
 
@@ -44,12 +47,28 @@ Favorites:
 -OS: Linux Mint
 `.replaceAll("\n","<br>")
 
+    const isMount = useIsMount()
+    const [afterRender, setAfterRender] = useState(false)
+    useEffect(() => {
+        if (isMount) {
+            getPattern()
+            timer1.current = typeWriterEffect()
+            setDone(true)
+        } else {
+            if (!afterRender) {
+                setAfterRender(true)
+                timer2.current = scannerEffect()
+            }
+        }
+    })
 
     useEffect(() => {
-        getPattern()
-        setDone(true)
-        typeWriterEffect()
+        return () => {
+            clearInterval(timer1.current);
+            clearInterval(timer2.current);
+        }
     }, [])
+
 
 
     const getPattern = () => {
@@ -77,7 +96,7 @@ Favorites:
             }
             setText(`${typeText.substring(0,pos)}&#x258C;`)
 
-            if (inputElement != null) {
+            if (inputElement?.current) {
                 inputElement.current.scrollTop = inputElement.current.scrollHeight
             }
 
@@ -86,6 +105,34 @@ Favorites:
                 clearInterval(interval)
             }
         },40)
+        return interval
+    }
+
+    const scannerEffect = () => {
+        let row=0
+        let pre=0
+        let pos=0.0
+        const interval = setInterval(() => {
+            // console.log(pos)
+            row = pos
+            try {
+                if (pre!=row && row < 12) {
+                    (document.getElementsByClassName(`op${pre}`) as HTMLCollectionOf<HTMLElement>)[0].style["opacity"] = "1.0";
+                    (document.getElementsByClassName(`op${row}`) as HTMLCollectionOf<HTMLElement>)[0].style["opacity"] = "0.75";
+                    pre=row
+                } else if (row >= 12 && row  <=15) {
+                    (document.getElementsByClassName(`op${pre}`) as HTMLCollectionOf<HTMLElement>)[0].style["opacity"] = "1.0";
+                    (document.getElementsByClassName(`op12`) as HTMLCollectionOf<HTMLElement>)[0].style["opacity"] = "0.75";
+                } else {
+                    (document.getElementsByClassName(`op12`) as HTMLCollectionOf<HTMLElement>)[0].style["opacity"] = "1.0";
+                }
+            } catch (e: any) {
+            }
+            pos += 1
+            if (pos>100) {
+                pos = 0
+            }
+        }, 35)
         return interval
     }
 
@@ -102,17 +149,17 @@ Favorites:
 
             <div style={{ position: "absolute" }}>
             <div style={{ position: "relative", left: "120px" }}>
-                <div className="border-5 rounded-lg px-2 py-2 border-lime-100 w-fit">
+                <div className="border-5 rounded-lg px-2 py-2 border-indigo-800 w-fit">
 
                     {codes.map((bits: string, index) => (
-                            <div className="grid grid-cols-8 gap-1 h-3 mt-1">
-                                {[...Array(8)].map((x, i) => (
-                                        draw(bits, i)
-                                    )
-                                )}
-                            </div>
+                        <div className={ `op${index} grid grid-cols-8 gap-1 h-3 mt-1`}>
+                            {[...Array(8)].map((x, i) => (
+                                    draw(bits, i)
+                                )
+                            )}
+                        </div>
                     ))}
-                    <p className="font-light text-xl font-sans ">
+                    <p className="op12 font-light text-lg font-sans ">
                         gellei.csaba
                     </p>
                 </div>

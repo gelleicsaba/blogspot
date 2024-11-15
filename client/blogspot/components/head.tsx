@@ -4,7 +4,7 @@ import articleService from '@/services/article.service'
 import SafeHtml from '@/components/SafeHtml'
 
 const Header = () =>  {
-    const [posX, setPosX] = useState(1250)
+    const [posX, setPosX] = useState(1550)
     const [text, setText] = useState("")
     // const [width, setWidth] = useState(9999)
     const ref = useRef(null)
@@ -39,10 +39,11 @@ const Header = () =>  {
             setPosX((p) => p - 1)
             posx-=1;
             if (posx < -width) {
+                console.log("QQ End of turn")
                 setPosX(1550)
                 posx = 1550
             }
-        },40)
+        },30)
         return () => clearInterval(interval)
 
 

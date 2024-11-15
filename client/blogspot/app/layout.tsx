@@ -50,7 +50,7 @@ const RootLayout = ({
               <Navbar />
             </div>
             <div className="w-full">
-              <main className="container mx-auto max-w-7xl pt-16 px-6 flex-grow">
+              <main className="container mx-auto max-w-7xl pt-10 px-6 flex-grow">
                 {children}
               </main>
             </div>

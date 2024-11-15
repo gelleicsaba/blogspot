@@ -6,6 +6,8 @@ import CardHr from '@/components/cardHr'
 import { Button } from '@nextui-org/button'
 import SafeHtml from '@/components/SafeHtml'
 import { ArticleCard } from '@/config/articleCard'
+import { SearchIcon } from '@/components/icons'
+import { Input } from "@nextui-org/input"
 
 const Articles = () => {
     const [search, setSearch] = useState("")
@@ -79,17 +81,64 @@ const Articles = () => {
         setPage(_page)
         console.log(_page)
         const fetchData = async () => {
-            const articleDto = await articleService.pageArticle(_page)
-            setLastPage(articleDto.lastPage)
-            const merge: any = [...articles, ...articleDto.data]
-            setArticles(merge)
+
+            if (search.length == 0) {
+                const articleDto = await articleService.pageArticle(_page)
+                setLastPage(articleDto.lastPage)
+                const merge: any = [...articles, ...articleDto.data]
+                setArticles(merge)
+            } else {
+                const articleDto = await articleService.searchArticle(search, _page)
+                setLastPage(articleDto.lastPage)
+                const merge: any = [...articles, ...articleDto.data]
+                setArticles(merge)
+            }
         }
         fetchData()
     }
 
+    const handleKeyup = async (evt: Event) => {
+        if (evt?.target) {
+            const val = (evt.target as HTMLInputElement).value.trim()
+            if (val!=="") {
+                const articleDto = await articleService.searchArticle(val, 0)
+                setPage(0)
+                setSearch(val)
+                setLastPage(articleDto.lastPage)
+                setArticles(articleDto.data)
+            } else {
+                setPage(0)
+                setSearch("")
+                const articleDto = await articleService.pageArticle(0)
+                setLastPage(articleDto.lastPage)
+                setArticles(articleDto.data)
+            }
+
+        }
+
+    }
 
     return (
         <div>
+            <div className='pt-0 pl-0 pr-0 pb-10 flex md:flex md:flex-grow flex-row justify-end space-x-1'>
+                <div className="w-80">
+                    <Input
+                        type="text"
+                        label="Search"
+                        defaultValue=""
+                        className="max-w-xs w-80"
+                        fullWidth={true}
+                        startContent={
+                            <SearchIcon className="text-black/50 mb-0.5 dark:text-white/90 text-slate-400 pointer-events-none flex-shrink-0" />
+                        }
+                        onKeyUp={(event) => {
+                            if (event.key === "Enter") {
+                                handleKeyup(event);
+                            }
+                        }}
+                        />
+                </div>
+            </div>
             <div className="grid grid-cols-2 gap-20">
                 {articles.map((article: any) => (
                     articleBox(article)
@@ -101,7 +150,7 @@ const Articles = () => {
                             <Button size="md" onPress={addMore}>
                                 Read more
                             </Button>
-                        : <>--- Here is the end. There's no more articles. ---</>
+                        : <>Here is the end. There's no more articles.</>
                     }
                 </span>
             </div>

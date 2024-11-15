@@ -19,6 +19,9 @@ class ArticleService {
     public async limitDesc(limit: number) {
         return (await axios.get(`${hostUrl}/article/limit?limit=${limit}`)).data
     }
+    public async searchArticle(search: string, page: number) {
+        return (await axios.get(`${hostUrl}/article/search?page=${page}&search=${encodeURI(search)}`)).data
+    }
 
 }
 
